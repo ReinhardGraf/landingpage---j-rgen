@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resilienz-Coaching für Führungskräfte – Jürgen Stilp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:       #c0392b;
+    --red-light: #e74c3c;
+    --dark:      #1e1e1e;
+    --gray:      #5a5a5a;
+    --gray-mid:  #888;
+    --gray-light:#f0f0f0;
+    --white:     #ffffff;
+    --off-white: #fafafa;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Source Sans 3',sans-serif; color:var(--dark); background:var(--white); overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    background:var(--white); border-bottom:3px solid var(--red);
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1rem 4rem; box-shadow:0 2px 20px rgba(0,0,0,0.08);
+  }
+  .nav-logo img { height:40px; object-fit:contain; }
+  .nav-links { display:flex; gap:2rem; list-style:none; align-items:center; }
+  .nav-links a {
+    text-decoration:none; font-size:0.8rem; font-weight:600;
+    letter-spacing:0.12em; text-transform:uppercase; color:var(--dark); transition:color 0.2s;
+  }
+  .nav-links a:hover { color:var(--red); }
+  .nav-cta { background:var(--red)!important; color:var(--white)!important; padding:0.55rem 1.4rem; border-radius:2px; transition:background 0.2s!important; }
+  .nav-cta:hover { background:var(--red-light)!important; }
+
+  /* HERO */
+  .hero { padding-top:80px; min-height:92vh; display:grid; grid-template-columns:55% 45%; background:var(--white); overflow:hidden; }
+  .hero-left { display:flex; flex-direction:column; justify-content:center; padding:5rem 4rem 5rem 6rem; }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:0.6rem;
+    background:#fdecea; color:var(--red); font-size:0.72rem; font-weight:700;
+    letter-spacing:0.2em; text-transform:uppercase; padding:0.45rem 1rem;
+    border-radius:2px; margin-bottom:1.8rem; width:fit-content;
+    opacity:0; animation:slideIn 0.7s 0.2s forwards;
+  }
+  .hero-badge::before { content:''; width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0; }
+  .hero h1 {
+    font-family:'Playfair Display',serif; font-size:clamp(2.4rem,3.8vw,3.6rem);
+    line-height:1.15; color:var(--dark); margin-bottom:1.4rem;
+    opacity:0; animation:slideIn 0.7s 0.4s forwards;
+  }
+  .hero h1 span { color:var(--red); font-style:italic; }
+  .hero-sub {
+    font-size:1.1rem; line-height:1.75; color:var(--gray); font-weight:300;
+    max-width:480px; margin-bottom:2.5rem; opacity:0; animation:slideIn 0.7s 0.6s forwards;
+  }
+  .hero-actions { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; opacity:0; animation:slideIn 0.7s 0.8s forwards; }
+
+  .btn-red { background:var(--red); color:var(--white); padding:0.95rem 2.4rem; font-weight:700; font-size:0.88rem; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; border-radius:2px; transition:background 0.2s,transform 0.2s; display:inline-block; }
+  .btn-red:hover { background:var(--red-light); transform:translateY(-2px); }
+  .btn-outline { border:2px solid #ddd; color:var(--dark); padding:0.9rem 2rem; font-weight:600; font-size:0.88rem; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; border-radius:2px; transition:border-color 0.2s,color 0.2s; display:inline-block; }
+  .btn-outline:hover { border-color:var(--red); color:var(--red); }
+
+  .hero-right { position:relative; overflow:hidden; }
+  .hero-right img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+  .hero-right::before { content:''; position:absolute; left:0; top:0; bottom:0; width:80px; background:linear-gradient(to right,var(--white),transparent); z-index:2; }
+  .hero-stat-bar {
+    position:absolute; bottom:2.5rem; left:-2rem;
+    background:var(--white); border-left:4px solid var(--red);
+    padding:1rem 1.5rem; box-shadow:0 8px 30px rgba(0,0,0,0.12); z-index:3;
+    opacity:0; animation:slideIn 0.7s 1.2s forwards;
+  }
+  .hero-stat-bar .stat-num { font-family:'Playfair Display',serif; font-size:2rem; color:var(--red); line-height:1; }
+  .hero-stat-bar .stat-text { font-size:0.75rem; color:var(--gray); margin-top:0.2rem; max-width:160px; line-height:1.4; }
+
+  /* TRUST BAR */
+  .trust-bar { background:var(--dark); padding:1.4rem 6rem; display:flex; justify-content:space-around; gap:2rem; flex-wrap:wrap; }
+  .trust-item { display:flex; align-items:center; gap:0.7rem; color:#ccc; font-size:0.82rem; font-weight:300; letter-spacing:0.05em; }
+  .trust-item::before { content:'✓'; color:var(--red); font-weight:700; font-size:1rem; }
+
+  /* GENERIC */
+  section { padding:5.5rem 0; }
+  .container { max-width:1100px; margin:0 auto; padding:0 2rem; }
+  .section-tag { display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--red); border-bottom:2px solid var(--red); padding-bottom:2px; margin-bottom:1rem; }
+  h2.heading { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,2.8vw,2.6rem); line-height:1.2; color:var(--dark); margin-bottom:1rem; }
+  h2.heading span { color:var(--red); font-style:italic; }
+  .lead-text { font-size:1.05rem; line-height:1.8; color:var(--gray); font-weight:300; max-width:580px; }
+
+  /* WARUM */
+  .warum { background:var(--off-white); }
+  .warum-layout { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; }
+  .warum-img { border-radius:4px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.1); position:relative; }
+  .warum-img img { width:100%; height:420px; object-fit:cover; display:block; }
+  .warum-img .img-label { position:absolute; bottom:0; left:0; right:0; background:var(--red); color:var(--white); padding:0.8rem 1.5rem; font-size:0.82rem; font-weight:600; letter-spacing:0.08em; }
+  .check-list { list-style:none; display:flex; flex-direction:column; gap:0.9rem; margin-top:1.8rem; }
+  .check-list li { display:flex; gap:0.9rem; font-size:0.95rem; color:var(--dark); line-height:1.5; align-items:flex-start; }
+  .check-list li::before { content:'→'; color:var(--red); font-weight:700; margin-top:0.1rem; flex-shrink:0; }
+
+  /* PILLARS */
+  .pillars { background:var(--white); }
+  .pillars-header { text-align:center; margin-bottom:3.5rem; }
+  .pillars-header .lead-text { margin:0 auto; text-align:center; }
+  .pillars-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; }
+  .pillar-card { background:var(--off-white); border-top:4px solid var(--red); padding:2.5rem 2rem; border-radius:2px; transition:box-shadow 0.3s,transform 0.3s; }
+  .pillar-card:hover { box-shadow:0 12px 40px rgba(192,57,43,0.12); transform:translateY(-4px); }
+  .pillar-icon { width:48px; height:48px; background:#fdecea; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:1.2rem; }
+  .pillar-card h3 { font-family:'Playfair Display',serif; font-size:1.25rem; color:var(--dark); margin-bottom:0.8rem; }
+  .pillar-card p { font-size:0.92rem; line-height:1.7; color:var(--gray); font-weight:300; }
+
+  /* PORTRAIT */
+  .portrait { background:var(--gray-light); }
+  .portrait-layout { display:grid; grid-template-columns:360px 1fr; gap:5rem; align-items:center; }
+  .portrait-img-wrap { position:relative; }
+  .portrait-img-wrap img { width:100%; height:460px; object-fit:cover; object-position:top; border-radius:4px; display:block; box-shadow:0 20px 50px rgba(0,0,0,0.15); }
+  .badge-overlay { position:absolute; bottom:-1.5rem; right:-1.5rem; background:var(--red); color:var(--white); padding:1.2rem 1.5rem; border-radius:2px; text-align:center; box-shadow:0 8px 25px rgba(192,57,43,0.3); }
+  .badge-overlay .big { font-family:'Playfair Display',serif; font-size:2rem; line-height:1; }
+  .badge-overlay .small { font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.85; margin-top:0.3rem; }
+  .portrait-text blockquote { font-family:'Playfair Display',serif; font-style:italic; font-size:1.35rem; line-height:1.5; color:var(--dark); border-left:4px solid var(--red); padding-left:1.5rem; margin:1.5rem 0 1.8rem; }
+  .credential-list { list-style:none; margin-top:1.5rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .credential-list li { display:flex; gap:0.7rem; font-size:0.9rem; color:var(--gray); }
+  .credential-list li::before { content:'✓'; color:var(--red); font-weight:700; flex-shrink:0; }
+
+  /* PROCESS */
+  .process { background:var(--white); }
+  .process-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:4rem; position:relative; }
+  .process-steps::after { content:''; position:absolute; top:2.2rem; left:calc(16.66% + 1rem); right:calc(16.66% + 1rem); height:2px; background:linear-gradient(to right,var(--red),#e8a0a0,var(--red)); z-index:0; }
+  .proc-step { padding:0 2rem; position:relative; z-index:1; text-align:center; }
+  .proc-num { width:4.5rem; height:4.5rem; border-radius:50%; background:var(--red); color:var(--white); font-family:'Playfair Display',serif; font-size:1.5rem; display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; box-shadow:0 6px 20px rgba(192,57,43,0.3); }
+  .proc-step h3 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--dark); margin-bottom:0.6rem; }
+  .proc-step p { font-size:0.88rem; color:var(--gray); line-height:1.7; font-weight:300; }
+
+  /* ANGEBOTE */
+  .angebote { background:var(--off-white); }
+  .angebote-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+  .angebot-card { background:var(--white); border-radius:4px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.07); transition:box-shadow 0.3s,transform 0.3s; }
+  .angebot-card:hover { box-shadow:0 12px 40px rgba(0,0,0,0.12); transform:translateY(-4px); }
+  .angebot-img { width:100%; height:200px; object-fit:cover; display:block; }
+  .angebot-body { padding:1.5rem; }
+  .angebot-body h3 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--dark); margin-bottom:0.6rem; }
+  .angebot-body p { font-size:0.88rem; color:var(--gray); line-height:1.65; font-weight:300; }
+  .angebot-link { display:inline-block; margin-top:1rem; font-size:0.8rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--red); text-decoration:none; border-bottom:1px solid transparent; transition:border-color 0.2s; }
+  .angebot-link:hover { border-color:var(--red); }
+
+  /* ZITAT */
+  .zitat-banner { background:var(--red); padding:4.5rem 2rem; text-align:center; }
+  .zitat-banner blockquote { font-family:'Playfair Display',serif; font-style:italic; color:var(--white); font-size:clamp(1.3rem,2.5vw,2rem); max-width:780px; margin:0 auto 1rem; line-height:1.5; }
+  .zitat-banner cite { color:rgba(255,255,255,0.7); font-size:0.82rem; letter-spacing:0.15em; text-transform:uppercase; font-style:normal; }
+
+  /* KONTAKT */
+  #kontakt { background:var(--white); }
+  .kontakt-layout { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+  .kontakt-info h3 { font-family:'Playfair Display',serif; font-size:1.9rem; color:var(--dark); margin-bottom:1rem; line-height:1.3; }
+  .kontakt-info p { color:var(--gray); line-height:1.8; font-weight:300; margin-bottom:2rem; }
+  .kontakt-details { display:flex; flex-direction:column; gap:0.7rem; }
+  .kd-row { display:flex; gap:0.8rem; align-items:flex-start; font-size:0.9rem; color:var(--gray); }
+  .kd-row strong { color:var(--red); font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; min-width:90px; padding-top:0.15rem; }
+  .form { display:flex; flex-direction:column; gap:1.2rem; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .field { display:flex; flex-direction:column; gap:0.35rem; }
+  .field label { font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--gray-mid); }
+  .field input,.field textarea,.field select { background:var(--off-white); border:1.5px solid #e0e0e0; border-bottom:2.5px solid var(--red); padding:0.85rem 1rem; font-family:'Source Sans 3',sans-serif; font-size:0.95rem; color:var(--dark); outline:none; border-radius:2px; transition:border-color 0.2s,background 0.2s; resize:vertical; -webkit-appearance:none; }
+  .field input:focus,.field textarea:focus,.field select:focus { border-color:var(--red); background:var(--white); }
+  .field textarea { min-height:120px; }
+  .submit { background:var(--red); color:var(--white); border:none; padding:1rem 2.8rem; font-family:'Source Sans 3',sans-serif; font-weight:700; font-size:0.88rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; border-radius:2px; transition:background 0.2s,transform 0.2s; align-self:flex-start; }
+  .submit:hover { background:var(--red-light); transform:translateY(-2px); }
+
+  /* FOOTER */
+  footer { background:var(--dark); padding:2.5rem 4rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  footer img { height:32px; filter:brightness(0) invert(1); opacity:0.8; }
+  footer p { color:#666; font-size:0.8rem; }
+  footer .footer-links { display:flex; gap:1.5rem; }
+  footer .footer-links a { color:#666; font-size:0.78rem; text-decoration:none; transition:color 0.2s; }
+  footer .footer-links a:hover { color:var(--red); }
+
+  /* ANIMATIONS */
+  @keyframes slideIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.65s,transform 0.65s; }
+  .reveal.visible { opacity:1; transform:none; }
+  .reveal-delay { transition-delay:0.15s; }
+  .reveal-delay2 { transition-delay:0.3s; }
+
+  /* RESPONSIVE */
+  @media(max-width:960px){
+    nav{padding:1rem 2rem;} .nav-links{display:none;}
+    .hero{grid-template-columns:1fr;min-height:auto;}
+    .hero-left{padding:5rem 2rem 3rem;} .hero-right{height:320px;} .hero-right::before{display:none;}
+    .warum-layout,.portrait-layout,.kontakt-layout{grid-template-columns:1fr;gap:3rem;}
+    .pillars-grid,.angebote-grid,.process-steps{grid-template-columns:1fr;}
+    .process-steps::after{display:none;} .form-row{grid-template-columns:1fr;}
+    .trust-bar{padding:1.5rem 2rem;} footer{padding:2rem;flex-direction:column;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#"><img src="https://stilp-coachingundtraining.de/wp-content/uploads/2025/12/Logo.png" alt="Stilp Coaching & Training"></a>
+  <ul class="nav-links">
+    <li><a href="#warum">Resilienz</a></li>
+    <li><a href="#juergen">Über mich</a></li>
+    <li><a href="#angebote">Angebote</a></li>
+    <li><a href="#kontakt" class="nav-cta">Gespräch anfragen</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Resilienz-Coaching für Führungskräfte</div>
+    <h1>Wenn Druck kommt –<br><span>bleiben Sie sich treu.</span></h1>
+    <p class="hero-sub">Führung unter Dauerstress kostet Kraft, Klarheit und Lebensqualität. Resilienz-Coaching hilft Ihnen, innere Stabilität aufzubauen – nicht als Theorie, sondern als gelebte Praxis im Alltag.</p>
+    <div class="hero-actions">
+      <a href="#kontakt" class="btn-red">Kostenloses Erstgespräch</a>
+      <a href="#warum" class="btn-outline">Mehr erfahren</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://stilp-coachingundtraining.de/wp-content/uploads/2025/12/556845279_1249171557016131_1526238024798468136_n-e1766311993709.jpg" alt="Jürgen Stilp – Coaching für Führungskräfte">
+    <div class="hero-stat-bar">
+      <div class="stat-num">20+</div>
+      <div class="stat-text">Jahre Erfahrung in Führung und persönlicher Entwicklung</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item">Diplom-Ingenieur mit Führungspraxis</div>
+  <div class="trust-item">Individuelles Coaching – kein Schema</div>
+  <div class="trust-item">Erstgespräch kostenlos & unverbindlich</div>
+  <div class="trust-item">Präsenz & Online möglich</div>
+</div>
+
+<!-- WARUM RESILIENZ -->
+<section class="warum" id="warum">
+  <div class="container">
+    <div class="warum-layout">
+      <div class="warum-img reveal">
+        <img src="https://stilp-coachingundtraining.de/wp-content/uploads/2025/12/558201109_1249171443682809_5213430303808695240_n.jpg" alt="Führung im Dialog">
+        <div class="img-label">Führung entsteht im Dialog – nicht im Monolog</div>
+      </div>
+      <div class="reveal reveal-delay">
+        <div class="section-tag">Warum Resilienz</div>
+        <h2 class="heading">Stress gehört zur Führung.<br><span>Der Umgang damit entscheidet.</span></h2>
+        <p class="lead-text">Entscheidungsdruck, Veränderungstempo, Personalverantwortung – Führung war selten so anspruchsvoll wie heute. Wer dauerhaft unter Volllast läuft, verliert Klarheit, Empathie und zuletzt sich selbst.</p>
+        <ul class="check-list">
+          <li>Souveräne Entscheidungen treffen, auch wenn alles auf einmal drängt</li>
+          <li>Rückschläge verarbeiten, ohne in Negativspiralen zu geraten</li>
+          <li>Den eigenen Energiehaushalt kennen und bewusst steuern</li>
+          <li>Als stabile Persönlichkeit Orientierung für das Team geben</li>
+          <li>Beruf und Mensch in Balance halten – langfristig und nachhaltig</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 SÄULEN -->
+<section class="pillars">
+  <div class="container">
+    <div class="pillars-header reveal">
+      <div class="section-tag">Das Modell</div>
+      <h2 class="heading">Drei Säulen <span>innerer Stärke</span></h2>
+      <p class="lead-text">Im Resilienz-Coaching arbeiten wir gezielt an den drei Dimensionen, die zusammen echte Belastungsfähigkeit aufbauen.</p>
+    </div>
+    <div class="pillars-grid reveal reveal-delay">
+      <div class="pillar-card">
+        <div class="pillar-icon">👁</div>
+        <h3>Selbstwahrnehmung</h3>
+        <p>Wo verliere ich Energie? Was treibt mich wirklich an – und was zieht mich unter? Klarheit über sich selbst ist der erste und wichtigste Schritt zu mehr Resilienz.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">⚓</div>
+        <h3>Innere Stabilität</h3>
+        <p>Ein klares Wertefundament und ein stabiles Selbstbild halten Sie aufrecht, wenn der Gegenwind stärker wird. Haltung schlägt Methode – immer.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">↑</div>
+        <h3>Adaptive Handlungsfähigkeit</h3>
+        <p>Resiliente Menschen erholen sich nach Erschütterungen schneller und gehen gestärkt daraus hervor. Diese Fähigkeit ist nicht angeboren – sie ist erlernbar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTRAIT -->
+<section class="portrait" id="juergen">
+  <div class="container">
+    <div class="portrait-layout">
+      <div class="portrait-img-wrap reveal">
+        <img src="https://stilp-coachingundtraining.de/wp-content/uploads/2025/12/2023_083-768x776.jpg" alt="Jürgen Stilp">
+        <div class="badge-overlay">
+          <div class="big">20+</div>
+          <div class="small">Jahre<br>Führungserfahrung</div>
+        </div>
+      </div>
+      <div class="portrait-text reveal reveal-delay">
+        <div class="section-tag">Der Mensch dahinter</div>
+        <h2 class="heading">Jürgen <span>Stilp</span></h2>
+        <blockquote>„Resilienz ist keine Technik, die man lernt. Sie wächst aus der Auseinandersetzung mit sich selbst."</blockquote>
+        <p class="lead-text">Als Diplom-Ingenieur mit langjähriger Führungsverantwortung in Technik und Vertrieb weiß Jürgen Stilp, wie es sich anfühlt, wenn der Druck überhandnimmt. Er begleitet Führungskräfte und Unternehmer nicht mit vorgefertigten Konzepten, sondern mit echtem Gespür für den Menschen hinter der Rolle.</p>
+        <ul class="credential-list">
+          <li>Diplom-Ingenieur – analytisch und praxisorientiert</li>
+          <li>Eigene Führungserfahrung in Technik und Vertrieb</li>
+          <li>Zertifizierter Coach und Trainer</li>
+          <li>Systemisches, wertorientiertes Vorgehen</li>
+          <li>Arbeit auf Augenhöhe – kein Schema, keine Belehrung</li>
+        </ul>
+        <br>
+        <a href="#kontakt" class="btn-red">Jetzt Gespräch anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:0">
+      <div class="section-tag">Vorgehen</div>
+      <h2 class="heading">So arbeiten wir <span>zusammen</span></h2>
+    </div>
+    <div class="process-steps reveal reveal-delay">
+      <div class="proc-step">
+        <div class="proc-num">1</div>
+        <h3>Kennenlernen</h3>
+        <p>Ein erstes Gespräch – kostenlos, offen, auf Augenhöhe. Nur wenn die Chemie stimmt, hat Entwicklung eine Chance.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">2</div>
+        <h3>Standortbestimmung</h3>
+        <p>Gemeinsam klären wir, wo Sie stehen, was Sie belastet und was Sie stärken wollen. Keine Standarddiagnose.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">3</div>
+        <h3>Begleitung im Alltag</h3>
+        <p>Wir arbeiten an konkreten Situationen aus Ihrer Realität. Erkenntnisse, die im Alltag wirklich greifen – das ist der Maßstab.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANGEBOTE -->
+<section class="angebote" id="angebote">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">Angebote</div>
+      <h2 class="heading">Formate, die zu Ihnen <span>passen</span></h2>
+    </div>
+    <div class="angebote-grid reveal reveal-delay">
+      <div class="angebot-card">
+        <img class="angebot-img" src="https://stilp-coachingundtraining.de/wp-content/uploads/2025/12/116749753_3030305543754115_3827896030238143180_n-300x203.jpg" alt="Einzelcoaching">
+        <div class="angebot-body">
+          <h3>Resilienz-Einzelcoaching</h3>
+          <p>Persönliche Begleitung für Führungskräfte, die innere Stärke aufbauen, klarer entscheiden und souveräner mit Druck umgehen wollen.</p>
+          <a href="#kontakt" class="angebot-link">Anfragen →</a>
+        </div>
+      </div>
+      <div class="angebot-card">
+        <img class="angebot-img" src="https://stilp-coachingundtraining.de/wp-content/uploads/2026/01/2023_196.jpeg" alt="Teamcoaching">
+        <div class="angebot-body">
+          <h3>Teamcoaching</h3>
+          <p>Wenn das ganze Team unter Druck steht: gemeinsam Resilienz aufbauen, Kommunikation stärken und als Einheit wachsen.</p>
+          <a href="#kontakt" class="angebot-link">Anfragen →</a>
+        </div>
+      </div>
+      <div class="angebot-card">
+        <img class="angebot-img" src="https://stilp-coachingundtraining.de/wp-content/uploads/2026/01/STILP_2015-06-12_WEN_0168.jpeg" alt="Seminar P³">
+        <div class="angebot-body">
+          <h3>Seminar P³ – Power, Performance, Persönlichkeit</h3>
+          <p>Mehrtägiges Entwicklungsformat: Energie, Klarheit und Haltung als Basis nachhaltiger Führungswirksamkeit.</p>
+          <a href="#kontakt" class="angebot-link">Anfragen →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZITAT BANNER -->
+<div class="zitat-banner reveal">
+  <blockquote>„Resilienz bedeutet nicht, unerschütterlich zu sein.<br>Es bedeutet, nach dem Erschüttern wieder aufzustehen – und dabei mehr über sich gelernt zu haben."</blockquote>
+  <cite>Jürgen Stilp · Stilp Coaching & Training</cite>
+</div>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="container">
+    <div class="kontakt-layout">
+      <div class="kontakt-info reveal">
+        <div class="section-tag">Kontakt</div>
+        <h3>Sprechen wir<br>miteinander.</h3>
+        <p>Der erste Schritt ist oft der entscheidende. Ein erstes Gespräch kostet nichts – und bringt oft bereits erste Klarheit. Schreiben Sie mir offen und ohne Erwartungen.</p>
+        <div class="kontakt-details">
+          <div class="kd-row"><strong>Web</strong><span>stilp-coachingundtraining.de</span></div>
+          <div class="kd-row"><strong>Format</strong><span>Präsenz oder Online – was zu Ihnen passt</span></div>
+          <div class="kd-row"><strong>Angebote</strong><span>Einzelcoaching · Teamcoaching · Seminar P³</span></div>
+          <div class="kd-row"><strong>Erstgespräch</strong><span>Kostenlos & unverbindlich</span></div>
+        </div>
+      </div>
+      <div class="form reveal reveal-delay">
+        <div class="form-row">
+          <div class="field"><label>Vorname</label><input type="text" placeholder="Max"></div>
+          <div class="field"><label>Nachname</label><input type="text" placeholder="Mustermann"></div>
+        </div>
+        <div class="field"><label>E-Mail-Adresse</label><input type="email" placeholder="max@unternehmen.de"></div>
+        <div class="field">
+          <label>Ich interessiere mich für</label>
+          <select>
+            <option value="">Bitte wählen…</option>
+            <option>Resilienz-Einzelcoaching</option>
+            <option>Teamcoaching</option>
+            <option>Seminar P³ – Power, Performance, Persönlichkeit</option>
+            <option>Sonstiges</option>
+          </select>
+        </div>
+        <div class="field"><label>Was bewegt Sie gerade?</label><textarea placeholder="Beschreiben Sie kurz, womit Sie sich beschäftigen – ein paar ehrliche Sätze reichen völlig."></textarea></div>
+        <button class="submit">Gespräch anfragen</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="https://stilp-coachingundtraining.de/wp-content/uploads/2025/12/Logo.png" alt="Stilp Coaching & Training">
+  <p>© 2026 Stilp Coaching & Training · Alle Rechte vorbehalten</p>
+  <div class="footer-links">
+    <a href="https://stilp-coachingundtraining.de/impressum/">Impressum</a>
+    <a href="https://stilp-coachingundtraining.de/datenschutz/">Datenschutz</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold:0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
